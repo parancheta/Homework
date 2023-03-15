@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="C:/Users/petea/code/SavvyCoders/Homework/Section07.sqlite" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure pragmas browser query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="737"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,11:mainDepartments"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="Departments" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="2" value="121"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="Between  Query _ HW 7.sql">select s.StudentName as &quot;Student Name&quot;
+	, c.SubjectName as &quot;Class&quot;
+	, g.Grade as &quot;Result&quot;
+	from Grades g 
+		inner join Students s
+			on g.StudentID = s.StudentID
+		inner join Subjects c -- classes
+			on g.SubjectID = c.SubjectID
+	where g.Grade between 80 and 90;
+	-- could be where g.Grade &gt;= 80
+	-- and g.Grade &lt;= 90;</sql><sql name="Cherrypicking _ HW 7.sql">select *
+	from Students s
+		where s.StudentID in (1,3,5,7,9)
+		and s.StudentName like &quot;%a%&quot;;</sql><sql name="Distinct _ HW 7.sql">select DISTINCT s.*
+	from students s
+	inner join grades g
+		where s.StudentID = g.StudentID;</sql><sql name="First Five _ HW 7.sql">-- first five rows
+Select * 
+	From students limit 5;
+
+-- second 5 rows
+select *
+	from students limit 5,5;</sql><sql name="Group Concat _ HW 7.sql">-- group_concat makes it a single string
+-- SELECT group_concat (studentname, ', ') from Students
+
+select s.StudentName
+	, group_concat(c.SubjectName, ', ')
+	from students s
+		inner join grades g
+			on s.StudentID = g.StudentID
+		inner join subjects c
+			on s.SubjectID = c.SubjectID
+	group by s.StudentName</sql><sql name="Order By _ HW 7.sql">select DISTINCT s.StudentName
+	from Students s
+		inner join Grades g
+			on s.StudentID = g.StudentID
+	order by s.StudentName;
+	
+select s.StudentName
+	,avg(g.grade) AS GPA
+	from students s
+		inner join grades g
+			on s.StudentID = g.StudentID
+	group by s.StudentName
+	order by avg(g.grade) DESC;</sql><sql name="SQL 1 _ HW 7.sql">select s.studentname
+, s.StudentID
+from Students s
+	where s.studentid &gt; 5
+	AND (s.StudentName like '%m%' 
+	or s.StudentName like 's%');</sql><sql name="Where Exists _ HW 7.sql">select *
+	from Students s
+		where EXISTS (
+			select 1
+				from Grades g
+				where s.StudentID = g.StudentID
+				);</sql><sql name="Where Not _ HW 7.sql">select *
+	from students s
+	where not exists (
+	select 1
+		from grades g
+		where s.StudentID = g.StudentID
+		);</sql><current_tab id="1"/></tab_sql></sqlb_project>
